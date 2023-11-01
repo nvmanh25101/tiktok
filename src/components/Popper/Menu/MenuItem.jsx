@@ -5,16 +5,17 @@ import PropTypes from 'prop-types';
 
 const cx = classNames.bind(styles);
 
-function MenuItem({ data }) {
+function MenuItem({ data, onClick }) {
     return ( 
-        <Button className={cx('menu-item')} leftIcon={data.icon} text to={data.to}>
+        <Button className={cx('menu-item')} leftIcon={data.icon} text to={data.to} onClick={onClick}>
             { data.title }
         </Button>
      );
 }
 
 MenuItem.propTypes = {
-    data: PropTypes.object
+    data: PropTypes.object,
+    onClick: PropTypes.func
 }
 
 export default MenuItem;
