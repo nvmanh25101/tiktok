@@ -26,6 +26,17 @@
     }
 }
 
+.icon + .title,
+.title + .icon {
+    margin-left: 8px;
+}
+
+.icon {
+    display: flex;
+    width: 24px;
+    text-align: center;
+}
+
 .rounded {
     border-radius: 999px;
     box-shadow: 0 2px 8px rgb(0 0 0 / 6%);
@@ -54,6 +65,10 @@
         border-color: currentColor;
         background-color: rgba(254, 44, 85, 0.06);
     }
+}
+
+.text {
+    border-color: transparent;
 }
 
 .small {
