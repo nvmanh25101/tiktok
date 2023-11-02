@@ -3,8 +3,8 @@ import { useState } from "react";
 import { forwardRef } from "react";
 import styles from "./Image.module.scss";
 import images from "../../assets/images";
-import PropTypes from 'prop-types';
 
+// eslint-disable-next-line react/prop-types
 function Image({ src, className, fallBack: customFallBack = images.noImage, ...props }, ref) {
     const [fallBack, setFallBack] = useState('')
 
@@ -15,12 +15,6 @@ function Image({ src, className, fallBack: customFallBack = images.noImage, ...p
     return (
         <img className={classNames(styles.wrapper, className)} src={fallBack || src} {...props} ref={ref} onError={handleError}/>
      );
-}
-
-Image.propTypes = {
-    className: PropTypes.string,
-    src: PropTypes.string,
-    fallBack: PropTypes.string,
 }
 
 export default forwardRef(Image);

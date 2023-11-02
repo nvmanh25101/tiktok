@@ -103,12 +103,29 @@
 }
 
 .action-btn {
+    position: relative;
     display: flex;
     font-size: 2.6rem;
     color: #161823;
     background-color: transparent;
     padding: 4px 12px;
     cursor: pointer;
+}
+
+
+.badge {
+    position: absolute;
+    top: -2px;
+    right: 2px;
+    padding: 0px 6px;
+    height: 2rem;
+    line-height: 2rem;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--white);
+    font-family: 'TiktokFont', sans-serif;
+    background-color: var(--primary);
 }
 
 .user-avatar {
@@ -119,4 +136,5 @@
     background: center no-repeat;
     background-size: cover;
     cursor: pointer;
+    margin-left: 12px;
 }
