@@ -1,24 +1,21 @@
-import { useEffect, useState } from "react";
 import classNames from "classnames/bind";
 import Tippy from "@tippyjs/react";
-import HeadlessTippy from "@tippyjs/react/headless";
 import 'tippy.js/dist/tippy.css';
 
-import { IoMdCloseCircle } from "react-icons/io";
-import { BiLoaderAlt, BiUser } from "react-icons/bi";
+import { BiUser } from "react-icons/bi";
 import { BsThreeDotsVertical, BsQuestionCircle, BsKeyboard, BsCoin } from "react-icons/bs";
 import { LuSettings } from "react-icons/lu";
 import { GrLanguage } from "react-icons/gr";
 import { FiLogOut } from "react-icons/fi";
-import { DownloadIcon, InboxIcon, MessageIcon, SearchIcon, UploadIcon } from "../../../Icons";
+import { DownloadIcon, InboxIcon, MessageIcon, UploadIcon } from "../../../Icons";
 
 import styles from "./Header.module.scss";
 import images from "../../../../assets/images";
-import { Wrapper as PopperWrapper } from "../../../Popper";
-import AccountItem from "../../../AccountItem";
+
 import Button from "../../../Button";
 import Menu from "../../../Popper/Menu";
 import Image from "../../../Image";
+import Search from "../Search";
 
 const cx = classNames.bind(styles); // dung - cho bien(post-item)
 
@@ -54,14 +51,8 @@ const MENU_ITEMS = [
 ]
 
 function Header() {
-    const [searchResult, setSearchResult] = useState([]);
     const isLogin = true;
 
-    useEffect(() => {
-        setTimeout(() => {
-            setSearchResult([]);
-        }, 5000);
-    });
 
     const handleMenuChange = (item) => {
         switch (item.type) {
@@ -99,37 +90,7 @@ function Header() {
         <header className={cx("wrapper")}>
             <img src={images.logo} alt="Tiktok" />
 
-            <HeadlessTippy
-                interactive
-                visible={searchResult.length > 0}
-                render={(attrs) => (
-                    <PopperWrapper>
-                        <div
-                            className={cx("search-result")}
-                            tabIndex="-1"
-                            {...attrs}
-                        >
-                            <h4 className={cx("search-title")}>Account</h4>
-                            <AccountItem />
-                            <AccountItem />
-                            <AccountItem />
-                            <AccountItem />
-                        </div>
-                    </PopperWrapper>
-                )}
-            >
-                <div className={cx("search")}>
-                    <input type="text" placeholder="Search" />
-                    <button className={cx("search-clear")}>
-                        <IoMdCloseCircle />
-                    </button>
-                    <BiLoaderAlt className={cx("search-loading")} />
-
-                    <button className={cx("search-btn")}>
-                        <SearchIcon />
-                    </button>
-                </div>
-            </HeadlessTippy>
+            <Search />
 
             <div className={cx("action")}>
                 <Button leftIcon={<UploadIcon/>}>Upload</Button>
