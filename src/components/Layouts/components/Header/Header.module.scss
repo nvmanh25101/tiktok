@@ -101,3 +101,22 @@
     background-color: transparent;
     cursor: pointer;
 }
+
+.action-btn {
+    display: flex;
+    font-size: 2.6rem;
+    color: #161823;
+    background-color: transparent;
+    padding: 4px 12px;
+    cursor: pointer;
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: center no-repeat;
+    background-size: cover;
+    cursor: pointer;
+}

@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import classNames from "classnames/bind";
-import Tippy from "@tippyjs/react/headless";
-import { IoMdCloseCircle } from "react-icons/io";
-import { BiLoaderAlt } from "react-icons/bi";
-import { BsSearch, BsThreeDotsVertical, BsQuestionCircle, BsKeyboard } from "react-icons/bs";
-import { GrLanguage } from "react-icons/gr";
+import Tippy from "@tippyjs/react";
+import HeadlessTippy from "@tippyjs/react/headless";
+import 'tippy.js/dist/tippy.css';
 
+import { IoMdCloseCircle } from "react-icons/io";
+import { BiLoaderAlt, BiMessageAltMinus, BiUser } from "react-icons/bi";
+import { BsSearch, BsThreeDotsVertical, BsQuestionCircle, BsKeyboard, BsPlusLg, BsLaptop, BsCoin } from "react-icons/bs";
+import { LuSend, LuSettings } from "react-icons/lu";
+import { GrLanguage } from "react-icons/gr";
+import { FiLogOut } from "react-icons/fi";
 
 import styles from "./Header.module.scss";
 import images from "../../../../assets/image";
@@ -49,6 +53,7 @@ const MENU_ITEMS = [
 
 function Header() {
     const [searchResult, setSearchResult] = useState([]);
+    const isLogin = true;
 
     useEffect(() => {
         setTimeout(() => {
@@ -64,11 +69,35 @@ function Header() {
         }
     }
 
+    const userMenu = [
+        {
+            icon: <BiUser />,
+            title: "View profile",
+            to: "/@nvm"
+        },
+        {
+            icon: <BsCoin />,
+            title: "Get coins",
+            to: "/coins"
+        },
+        {
+            icon: <LuSettings />,
+            title: "Settings",
+            to: "/settings"
+        },
+        ...MENU_ITEMS,
+        {
+            icon: <FiLogOut />,
+            title: "Log out",
+            separate: true,
+        },
+    ]
+
     return (
         <header className={cx("wrapper")}>
             <img src={images.logo} alt="Tiktok" />
 
-            <Tippy
+            <HeadlessTippy
                 interactive
                 visible={searchResult.length > 0}
                 render={(attrs) => (
@@ -98,17 +127,37 @@ function Header() {
                         <BsSearch />
                     </button>
                 </div>
-            </Tippy>
+            </HeadlessTippy>
 
             <div className={cx("action")}>
-                <Button>Upload</Button>
-                <Button primary>Log in</Button>
+                <Button leftIcon={<BsPlusLg/>}>Upload</Button>
+                {
+                    isLogin ? (
+                    <>
+                        <button className={cx('action-btn')}><BsLaptop /></button>
+                        <Tippy delay={[0, 100]} content='Messages' placement="bottom">
+                            <button className={cx('action-btn')}><LuSend /></button>
+                        </Tippy>
 
-                <Menu items={MENU_ITEMS} onChange={handleMenuChange}>
-                    <button className={cx("more-btn")}>
-                        <BsThreeDotsVertical />
-                    </button>
-               </Menu>
+                        <button className={cx('action-btn')}><BiMessageAltMinus /></button>
+                    </>
+                    ) : (
+                        <>
+                            <Button primary>Log in</Button>
+                        </>
+                    )
+                }
+                <Menu items={isLogin ? userMenu : MENU_ITEMS} onChange={handleMenuChange}>
+                    {
+                        isLogin ? (
+                            <img className={cx('user-avatar')} src="https://i.pinimg.com/236x/9a/59/9a/9a599ac7f601dba8197036276cf0b6a6.jpg" alt="NVM"/>
+                        ) : (
+                            <button className={cx("more-btn")}>
+                                <BsThreeDotsVertical />
+                            </button>
+                        )
+                    }
+                </Menu>
             </div>
         </header>
     );
