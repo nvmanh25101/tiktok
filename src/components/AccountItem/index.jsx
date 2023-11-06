@@ -1,23 +1,25 @@
+/* eslint-disable react/prop-types */
 import classNames from "classnames/bind";
+import { Link } from "react-router-dom";
 import styles from "./AccountItem.module.scss"
 import Image from '../Image'
 import { BsCheckCircleFill } from "react-icons/bs";
 const cx = classNames.bind(styles);
 
-function AccountItem() {
+function AccountItem({ data }) {
     return ( 
-        <div className={cx('wrapper')}>
+        <Link to={`/@${data.nickname}`} className={cx('wrapper')}>
             <Image className={cx('avatar')}
-                src="https://i.pinimg.com/564x/62/90/ab/6290abeb2231d37b7c508eff6f620e91.jpg"
-                alt="avatar" />
+                src={data.avatar}
+                alt={data.full_name} />
             <div className={cx('info')}>
                 <p className={cx('name')}>
-                    <span>name</span>
-                    <span>< BsCheckCircleFill className={cx('check')} /></span>
+                    <span>{data.full_name}</span>
+                    {data.tick && <span>< BsCheckCircleFill className={cx('check')} /></span>}
                 </p>
-                <span className={cx('username')}>name</span>
+                <span className={cx('username')}>{data.nickname}</span>
             </div>
-        </div>
+        </Link>
      );
 }
 

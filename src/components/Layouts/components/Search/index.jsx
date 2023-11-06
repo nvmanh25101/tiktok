@@ -18,14 +18,23 @@ function Search() {
     const [searchValue, setSearchValue] = useState("");
     const [searchResult, setSearchResult] = useState([]);
     const [showResult, setShowResult] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const clearRef = useRef();
 
     useEffect(() => {
-        setTimeout(() => {
-            setSearchResult([1, 2, 3]);
-        }, 5000);
-    });
+        if(!searchValue) return setSearchResult([]);
+
+        setLoading(true);
+
+        fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(searchValue)}&type=less`)
+            .then(res => res.json())
+            .then(res => {
+                setSearchResult(res.data)
+                setLoading(false)
+            })
+            .catch(() => setLoading(false))
+    }, [searchValue]);
 
     const handleHideResult = () => {
         setShowResult(false);
@@ -43,10 +52,7 @@ function Search() {
                         {...attrs}
                     >
                         <h4 className={cx("search-title")}>Account</h4>
-                        <AccountItem />
-                        <AccountItem />
-                        <AccountItem />
-                        <AccountItem />
+                        {searchResult.map((item) => <AccountItem key={item.id} data={item} /> )}
                     </div>
                 </PopperWrapper>
             )}
@@ -58,10 +64,13 @@ function Search() {
                     type="text"
                     value={searchValue}
                     placeholder="Search"
-                    onChange={(e) => setSearchValue(e.target.value)}
+                    onChange={(e) => {
+                        let value = e.target.value.trimStart();
+                        setSearchValue(value);
+                    }}
                     onFocus={() => setShowResult(true)}
                 />
-                {!!searchValue && (
+                {!!searchValue && !loading && (
                     <button
                         className={cx("search-clear")}
                         onClick={() => {
@@ -73,7 +82,7 @@ function Search() {
                     </button>
                 )}
 
-                {/* <BiLoaderAlt className={cx("search-loading")} /> */}
+                { loading && <BiLoaderAlt className={cx("search-loading")} />}
 
                 <button className={cx("search-btn")}>
                     <SearchIcon />

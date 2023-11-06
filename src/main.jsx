@@ -8,6 +8,7 @@ import GlobalStyles from './components/GlobalStyles/index.js'
 import DefaultLayout from './components/Layouts/DefaultLayout/index.jsx'
 import Upload from './pages/Upload/index.jsx'
 import HeaderOnly from './components/Layouts/HeaderOnly/index.jsx'
+import Profile from './pages/Profile/index.jsx'
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: '/following',
         element: < Following />
+      },
+      {
+        path: '/:nickname',
+        element: < Profile />
       }
     ]
   },
@@ -33,7 +38,7 @@ const router = createBrowserRouter([
         element: < Upload />
       }
     ]
-  }
+  },
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
