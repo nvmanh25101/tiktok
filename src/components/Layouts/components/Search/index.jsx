@@ -8,10 +8,12 @@ import { IoMdCloseCircle } from "react-icons/io";
 // eslint-disable-next-line no-unused-vars
 import { BiLoaderAlt } from "react-icons/bi";
 import { SearchIcon } from "../../../Icons";
+
 import { Wrapper as PopperWrapper } from "../../../Popper";
 import AccountItem from "../../../AccountItem";
 import { useRef } from "react";
 import { useDebounce } from "../../../../hooks";
+import * as searchService from "../../../../apiServices/searchService";
 
 const cx = classNames.bind(styles); // dung - cho bien(post-item)
 
@@ -28,15 +30,15 @@ function Search() {
     useEffect(() => {
         if(!debounced) return setSearchResult([]);
 
-        setLoading(true);
+        const fetchApi = async () => {
+            setLoading(true)
 
-        fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(debounced)}&type=less`)
-            .then(res => res.json())
-            .then(res => {
-                setSearchResult(res.data)
-                setLoading(false)
-            })
-            .catch(() => setLoading(false))
+            const searchResult = await searchService.search(debounced)
+            setSearchResult(searchResult)
+            setLoading(false)
+        }
+
+        fetchApi()
     }, [debounced]);
 
     const handleHideResult = () => {
