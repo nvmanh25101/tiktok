@@ -11,6 +11,7 @@ import { SearchIcon } from "../../../Icons";
 import { Wrapper as PopperWrapper } from "../../../Popper";
 import AccountItem from "../../../AccountItem";
 import { useRef } from "react";
+import { useDebounce } from "../../../../hooks";
 
 const cx = classNames.bind(styles); // dung - cho bien(post-item)
 
@@ -20,21 +21,23 @@ function Search() {
     const [showResult, setShowResult] = useState(true);
     const [loading, setLoading] = useState(false);
 
+    const debounced = useDebounce(searchValue, 500);
+
     const clearRef = useRef();
 
     useEffect(() => {
-        if(!searchValue) return setSearchResult([]);
+        if(!debounced) return setSearchResult([]);
 
         setLoading(true);
 
-        fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(searchValue)}&type=less`)
+        fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(debounced)}&type=less`)
             .then(res => res.json())
             .then(res => {
                 setSearchResult(res.data)
                 setLoading(false)
             })
             .catch(() => setLoading(false))
-    }, [searchValue]);
+    }, [debounced]);
 
     const handleHideResult = () => {
         setShowResult(false);
